@@ -1,0 +1,52 @@
+<html>
+<body>
+<style>
+.textarea{
+ font-size:20px;
+ color:red; /* 设置文本颜色为红色 */
+ background-color:#000; /* 设置背景颜色为黑色 */
+} 
+</style>
+
+<hr/>
+
+<br/>
+
+value:<textarea id="mytext" rows="20" cols="100" value="">
+    <dubbo:reference id="resourceService" interface="com.mobanker.auth.api.resource.ResourceService" check="false"/>
+    <dubbo:reference id="userService" interface="com.mobanker.auth.api.user.UserService" check="false"/>
+
+</textarea>
+<input type="button" value="submit" id="submit" onclick="getStr();"/>
+<hr/>
+result:<textarea id="result" value="" rows="20" cols="100" class="textarea"></textarea>
+
+<script>
+
+
+function getStr() {
+	
+	var str = document.getElementById("mytext").value;
+	//alert(str);
+	
+	
+    var reg = str.match(/interface=\"(\w(\.){0,1})+\"/g);
+	var text = "";
+    var result = reg.map(function(element){
+		console.info(element);
+        var indexStr = element.replace(/\"/g, '');
+		var index = indexStr.indexOf('interface');
+		console.info(index);
+		if(index==0){
+			text = text + indexStr.replace("interface=","") + ",";
+		}
+		
+    });
+	document.getElementById("result").value = text.substring(0,text.length-1);
+	
+}
+
+
+</script>
+</body>
+</html>
